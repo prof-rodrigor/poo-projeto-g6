@@ -8,12 +8,14 @@ import br.ufpb.dcx.rodrigor.projetos.participante.controllers.ParticipanteContro
 import br.ufpb.dcx.rodrigor.projetos.participante.services.ParticipanteService;
 import br.ufpb.dcx.rodrigor.projetos.projeto.controllers.ProjetoController;
 import br.ufpb.dcx.rodrigor.projetos.projeto.services.ProjetoService;
+import com.mongodb.client.MongoCollection;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.bson.Document;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
@@ -51,6 +53,8 @@ public class App {
         ParticipanteService participanteService = new ParticipanteService(mongoDBConnector);
         config.appData(Keys.PROJETO_SERVICE.key(), new ProjetoService(mongoDBConnector, participanteService));
         config.appData(Keys.PARTICIPANTE_SERVICE.key(), participanteService);
+        config.appData(Keys.DISCIPLINA_SERVICE.key(), new DisciplinaService(mongoDBConnector, participanteService));
+        //sem a utilização dos participantes no momento
     }
     private void configurarPaginasDeErro(Javalin app) {
         app.error(404, ctx -> ctx.render("erro_404.html"));

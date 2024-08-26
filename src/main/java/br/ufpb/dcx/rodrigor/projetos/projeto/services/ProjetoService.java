@@ -32,8 +32,6 @@ public class ProjetoService extends AbstractService {
         this.collection = database.getCollection("projetos");
     }
 
-
-
     public List<Projeto> listarProjetos() {
         List<Projeto> projetos = new ArrayList<>();
         for (Document doc : collection.find()) {

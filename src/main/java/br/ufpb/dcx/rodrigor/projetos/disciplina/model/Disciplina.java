@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 public class Disciplina {
     private ObjectId id;
     private String nome;
+    //adicionar um professor e alunos posteriormente
     private int periodo;
     PesoDisciplina peso;
 
