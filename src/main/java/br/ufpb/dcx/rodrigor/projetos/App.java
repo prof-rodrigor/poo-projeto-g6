@@ -1,6 +1,8 @@
 package br.ufpb.dcx.rodrigor.projetos;
 
 import br.ufpb.dcx.rodrigor.projetos.db.MongoDBConnector;
+import br.ufpb.dcx.rodrigor.projetos.disciplina.controllers.DisciplinaController;
+import br.ufpb.dcx.rodrigor.projetos.disciplina.services.DisciplinaService;
 import br.ufpb.dcx.rodrigor.projetos.login.LoginController;
 import br.ufpb.dcx.rodrigor.projetos.participante.controllers.ParticipanteController;
 import br.ufpb.dcx.rodrigor.projetos.participante.services.ParticipanteService;
@@ -164,6 +166,11 @@ public class App {
         app.post("/participantes", participanteController::adicionarParticipante);
         app.get("/participantes/{id}/remover", participanteController::removerParticipante);
 
+        DisciplinaController disciplinaController = new DisciplinaController();
+        app.get("/disciplinas", disciplinaController::listarDisciplinas);
+        app.get("/disciplinas/novo", disciplinaController::mostrarFormularioCadastro);
+        app.post("/disciplinas", disciplinaController::adicionarDisciplina);
+        app.get("/disciplinas/{id}/remover", disciplinaController::removerDisciplina);
     }
 
     private Properties carregarPropriedades() {

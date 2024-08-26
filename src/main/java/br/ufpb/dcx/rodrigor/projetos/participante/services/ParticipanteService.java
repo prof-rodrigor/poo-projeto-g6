@@ -45,8 +45,6 @@ public class ParticipanteService extends AbstractService {
         return participantes;
     }
 
-
-
     public Optional<Participante> buscarParticipantePorId(String id) {
         Document doc = collection.find(eq("_id", new ObjectId(id))).first();
         return Optional.ofNullable(doc).map(ParticipanteService::documentToParticipante);
