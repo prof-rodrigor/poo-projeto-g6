@@ -53,13 +53,14 @@ public class DisciplinaService extends AbstractService {
         Document doc = disciplinaToDocument(disciplinaAtualizada);
         collection.replaceOne(eq("_id", new ObjectId(disciplinaAtualizada.getId().toString())), doc);
     }
-
     public void removerDisciplina (String id) {
         collection.deleteOne(eq("_id", new ObjectId(id)));
     }
 
     public static Disciplina documentToDisciplina(Document doc) {
         Disciplina disciplina = new Disciplina();
+
+        disciplina.setId(doc.getObjectId("_id"));
         disciplina.setNome(doc.getString("nome"));
         disciplina.setPeriodo(doc.getInteger("periodo"));
         disciplina.setPeso(PesoDisciplina.valueOf(doc.getString("peso")));
