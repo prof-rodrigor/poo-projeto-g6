@@ -18,7 +18,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class DisciplinaService extends AbstractService {
     private final MongoCollection<Document> collection;
-    public DisciplinaService(MongoDBConnector mongoDBConnector, ParticipanteService participanteService) {
+    public DisciplinaService(MongoDBConnector mongoDBConnector) {
         super(mongoDBConnector);
         MongoDatabase database = mongoDBConnector.getDatabase("disciplinas");
         this.collection =  database.getCollection("disciplinas");

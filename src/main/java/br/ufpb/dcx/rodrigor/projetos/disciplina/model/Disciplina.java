@@ -7,7 +7,7 @@ public class Disciplina {
     private String nome;
     //adicionar um professor e alunos posteriormente
     private int periodo;
-    PesoDisciplina peso;
+    private PesoDisciplina peso;
 
     // Getters and Setters
     public ObjectId getId() {

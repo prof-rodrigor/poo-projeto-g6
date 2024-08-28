@@ -30,7 +30,6 @@ public class App {
     private static final int PORTA_PADRAO = 8000;
     private static final String PROP_PORTA_SERVIDOR = "porta.servidor";
     private static final String PROP_MONGODB_CONNECTION_STRING = "mongodb.connectionString";
-
     private final Properties propriedades;
     private MongoDBConnector mongoDBConnector = null;
 
@@ -51,9 +50,11 @@ public class App {
     }
     private void registrarServicos(JavalinConfig config, MongoDBConnector mongoDBConnector) {
         ParticipanteService participanteService = new ParticipanteService(mongoDBConnector);
+        DisciplinaService disciplinaService = new DisciplinaService(mongoDBConnector);
+
         config.appData(Keys.PROJETO_SERVICE.key(), new ProjetoService(mongoDBConnector, participanteService));
         config.appData(Keys.PARTICIPANTE_SERVICE.key(), participanteService);
-        config.appData(Keys.DISCIPLINA_SERVICE.key(), new DisciplinaService(mongoDBConnector, participanteService));
+        config.appData(Keys.DISCIPLINA_SERVICE.key(), disciplinaService);
         //sem a utilização dos participantes no momento
     }
     private void configurarPaginasDeErro(Javalin app) {
