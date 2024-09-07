@@ -62,6 +62,7 @@ public class DisciplinaService extends AbstractService {
 
         disciplina.setId(doc.getObjectId("_id"));
         disciplina.setNome(doc.getString("nome"));
+        disciplina.setDescricao(doc.getString("descricao"));
         disciplina.setPeriodo(doc.getInteger("periodo"));
         disciplina.setPeso(PesoDisciplina.valueOf(doc.getString("peso")));
         return disciplina;
@@ -72,6 +73,7 @@ public class DisciplinaService extends AbstractService {
             doc.put("_id", disciplina.getId());
         }
         doc.put("nome", disciplina.getNome());
+        doc.put("descricao", disciplina.getDescricao());
         doc.put("periodo", disciplina.getPeriodo());
         doc.put("peso", disciplina.getPeso());
         return doc;

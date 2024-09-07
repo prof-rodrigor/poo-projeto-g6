@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 public class Disciplina {
     private ObjectId id;
     private String nome;
+    private String descricao;
     //adicionar um professor e alunos posteriormente
     private int periodo;
     private PesoDisciplina peso;
@@ -25,6 +26,10 @@ public class Disciplina {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public String getDescricao() {return descricao;}
+
+    public void setDescricao(String descricao) {this.descricao = descricao;}
 
     public int getPeriodo() {
         return periodo;
@@ -47,6 +52,7 @@ public class Disciplina {
         return "Disciplina{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
                 ", periodo=" + periodo +
                 ", pesoDisciplina=" + peso +
                 '}';
