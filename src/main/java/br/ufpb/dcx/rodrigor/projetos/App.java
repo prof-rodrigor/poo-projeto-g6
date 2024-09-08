@@ -1,6 +1,6 @@
 package br.ufpb.dcx.rodrigor.projetos;
 
-import br.ufpb.dcx.rodrigor.projetos.db.MongoDBConnector;
+import br.ufpb.dcx.rodrigor.projetos.db.MongoDBRepository;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.controllers.DisciplinaController;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.services.DisciplinaService;
 import br.ufpb.dcx.rodrigor.projetos.login.LoginController;
@@ -8,14 +8,12 @@ import br.ufpb.dcx.rodrigor.projetos.participante.controllers.ParticipanteContro
 import br.ufpb.dcx.rodrigor.projetos.participante.services.ParticipanteService;
 import br.ufpb.dcx.rodrigor.projetos.projeto.controllers.ProjetoController;
 import br.ufpb.dcx.rodrigor.projetos.projeto.services.ProjetoService;
-import com.mongodb.client.MongoCollection;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bson.Document;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
@@ -31,7 +29,7 @@ public class App {
     private static final String PROP_PORTA_SERVIDOR = "porta.servidor";
     private static final String PROP_MONGODB_CONNECTION_STRING = "mongodb.connectionString";
     private final Properties propriedades;
-    private MongoDBConnector mongoDBConnector = null;
+    private MongoDBRepository mongoDBRepository = null;
 
     public App() {
         this.propriedades = carregarPropriedades();
@@ -48,11 +46,11 @@ public class App {
             ctx.status(500);
         });
     }
-    private void registrarServicos(JavalinConfig config, MongoDBConnector mongoDBConnector) {
-        ParticipanteService participanteService = new ParticipanteService(mongoDBConnector);
-        DisciplinaService disciplinaService = new DisciplinaService(mongoDBConnector);
+    private void registrarServicos(JavalinConfig config, MongoDBRepository mongoDBRepository) {
+        ParticipanteService participanteService = new ParticipanteService(mongoDBRepository);
+        DisciplinaService disciplinaService = new DisciplinaService(mongoDBRepository);
 
-        config.appData(Keys.PROJETO_SERVICE.key(), new ProjetoService(mongoDBConnector, participanteService));
+        config.appData(Keys.PROJETO_SERVICE.key(), new ProjetoService(mongoDBRepository, participanteService));
         config.appData(Keys.PARTICIPANTE_SERVICE.key(), participanteService);
         config.appData(Keys.DISCIPLINA_SERVICE.key(), disciplinaService);
         //sem a utilização dos participantes no momento
@@ -77,15 +75,15 @@ public class App {
 
         config.events(event -> {
             event.serverStarting(() -> {
-                mongoDBConnector = inicializarMongoDB();
-                config.appData(Keys.MONGO_DB.key(), mongoDBConnector);
-                registrarServicos(config, mongoDBConnector);
+                mongoDBRepository = inicializarMongoDB();
+                config.appData(Keys.MONGO_DB.key(), mongoDBRepository);
+                registrarServicos(config, mongoDBRepository);
             });
             event.serverStopping(() -> {
-                if (mongoDBConnector == null) {
+                if (mongoDBRepository == null) {
                     logger.error("MongoDBConnector não deveria ser nulo ao parar o servidor");
                 } else {
-                    mongoDBConnector.close();
+                    mongoDBRepository.close();
                     logger.info("Conexão com o MongoDB encerrada com sucesso");
                 }
             });
@@ -124,7 +122,7 @@ public class App {
         return templateEngine;
     }
 
-    private MongoDBConnector inicializarMongoDB() {
+    private MongoDBRepository inicializarMongoDB() {
         String connectionString = propriedades.getProperty(PROP_MONGODB_CONNECTION_STRING);
         logger.info("Lendo string de conexão ao MongoDB a partir do application.properties");
         if (connectionString == null) {
@@ -134,7 +132,7 @@ public class App {
         }
 
         logger.info("Conectando ao MongoDB");
-        MongoDBConnector db = new MongoDBConnector(connectionString);
+        MongoDBRepository db = new MongoDBRepository(connectionString);
         if (db.conectado("config")) {
             logger.info("Conexão com o MongoDB estabelecida com sucesso");
         } else {

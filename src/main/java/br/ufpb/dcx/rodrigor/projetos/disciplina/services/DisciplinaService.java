@@ -1,10 +1,9 @@
 package br.ufpb.dcx.rodrigor.projetos.disciplina.services;
 
 import br.ufpb.dcx.rodrigor.projetos.AbstractService;
-import br.ufpb.dcx.rodrigor.projetos.db.MongoDBConnector;
+import br.ufpb.dcx.rodrigor.projetos.db.MongoDBRepository;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.model.Disciplina;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.model.PesoDisciplina;
-import br.ufpb.dcx.rodrigor.projetos.participante.services.ParticipanteService;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -18,9 +17,9 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class DisciplinaService extends AbstractService {
     private final MongoCollection<Document> collection;
-    public DisciplinaService(MongoDBConnector mongoDBConnector) {
-        super(mongoDBConnector);
-        MongoDatabase database = mongoDBConnector.getDatabase("disciplinas");
+    public DisciplinaService(MongoDBRepository mongoDBRepository) {
+        super(mongoDBRepository);
+        MongoDatabase database = mongoDBRepository.getDatabase("disciplinas");
         this.collection =  database.getCollection("disciplinas");
     }
     public List<Disciplina> listarDisciplinasPorPeso(PesoDisciplina pesoDisciplina){

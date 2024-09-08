@@ -1,17 +1,29 @@
 package br.ufpb.dcx.rodrigor.projetos.login;
 
 public class Usuario {
+    private String id;
     private String login;
     private String nome;
     private String senha;
 
-    public Usuario(String login, String nome, String senha) {
+    public Usuario(String id, String login, String nome, String senha) {
+        this.id = id;
         this.login = login;
         this.nome = nome;
         this.senha = senha;
     }
 
     public Usuario() {
+    }
+
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getLogin() {
