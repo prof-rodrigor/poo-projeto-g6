@@ -1,5 +1,7 @@
 package br.ufpb.dcx.rodrigor.projetos.login;
 
+import java.util.Locale;
+
 public class Usuario {
     private String id;
     private String login;

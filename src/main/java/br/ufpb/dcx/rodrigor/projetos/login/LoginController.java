@@ -8,7 +8,7 @@ public class LoginController {
     private static final Logger logger = LogManager.getLogger(LoginController.class);
 
     // Usuário de exemplo para autenticação
-    private final Usuario usuarioExemplo = new Usuario("admin", "Administrador", "admin");
+    private final Usuario usuarioExemplo = new Usuario("1234", "admin", "admin", "admin");
 
     public void mostrarPaginaLogin(Context ctx) {
         String teste = ctx.queryParam("teste");
