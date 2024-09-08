@@ -4,6 +4,8 @@ import br.ufpb.dcx.rodrigor.projetos.db.MongoDBRepository;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.controllers.DisciplinaController;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.services.DisciplinaService;
 import br.ufpb.dcx.rodrigor.projetos.login.LoginController;
+import br.ufpb.dcx.rodrigor.projetos.login.UsuarioController;
+import br.ufpb.dcx.rodrigor.projetos.login.UsuarioService;
 import br.ufpb.dcx.rodrigor.projetos.participante.controllers.ParticipanteController;
 import br.ufpb.dcx.rodrigor.projetos.participante.services.ParticipanteService;
 import br.ufpb.dcx.rodrigor.projetos.projeto.controllers.ProjetoController;
@@ -26,8 +28,10 @@ public class App {
     private static final Logger logger = LogManager.getLogger();
 
     private static final int PORTA_PADRAO = 8000;
+
     private static final String PROP_PORTA_SERVIDOR = "porta.servidor";
     private static final String PROP_MONGODB_CONNECTION_STRING = "mongodb.connectionString";
+
     private final Properties propriedades;
     private MongoDBRepository mongoDBRepository = null;
 
@@ -52,6 +56,7 @@ public class App {
 
         config.appData(Keys.PROJETO_SERVICE.key(), new ProjetoService(mongoDBRepository, participanteService));
         config.appData(Keys.PARTICIPANTE_SERVICE.key(), participanteService);
+        config.appData(Keys.USUARIO_SERVICE.key(), new UsuarioService(mongoDBRepository));
         config.appData(Keys.DISCIPLINA_SERVICE.key(), disciplinaService);
         //sem a utilização dos participantes no momento
     }
@@ -174,6 +179,14 @@ public class App {
         app.get("/disciplinas/novo", disciplinaController::mostrarFormularioCadastro);
         app.post("/disciplinas", disciplinaController::adicionarDisciplina);
         app.get("/disciplinas/{id}/remover", disciplinaController::removerDisciplina);
+
+        //usuário
+        UsuarioController usuarioController = new UsuarioController();
+        app.get("/usuarios", usuarioController::listarUsuarios);
+        app.get("/usuarios/novo", usuarioController::mostrarFormularioCadastro);
+        app.post("/usuarios/cadastrar", usuarioController::cadastrarUsuario);
+        app.get("/usuarios/signup", usuarioController::mostrarFormulario_singup);
+        app.get("/usuarios/{id}/remover", usuarioController::removerUsuario);
     }
 
     private Properties carregarPropriedades() {
