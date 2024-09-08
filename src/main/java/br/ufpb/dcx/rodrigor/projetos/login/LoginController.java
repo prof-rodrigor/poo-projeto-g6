@@ -15,8 +15,7 @@ public class LoginController {
         if(teste != null){
             throw new RuntimeException("Erro de teste a partir do /login?teste=1");
         }
-
-        ctx.render("login.html");
+        ctx.render("/login/login.html"); //mudança
     }
 
     public void processarLogin(Context ctx) {
