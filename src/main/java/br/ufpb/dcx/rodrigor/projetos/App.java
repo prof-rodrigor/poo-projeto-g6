@@ -162,6 +162,16 @@ public class App {
             }
         });
 
+        //usuário
+        UsuarioController usuarioController = new UsuarioController();
+        app.get("/usuarios", usuarioController::listarUsuarios);
+        app.get("/usuarios/novo", usuarioController::mostrarFormularioCadastro);
+        app.post("/usuarios/cadastrar", usuarioController::cadastrarUsuario);
+        app.get("/usuarios/signup", usuarioController::mostrarFormulario_signup);
+        app.get("/usuarios/{id}/remover", usuarioController::removerUsuario);
+
+
+
         ProjetoController projetoController = new ProjetoController();
         app.get("/projetos", projetoController::listarProjetos);
         app.get("/projetos/novo", projetoController::mostrarFormulario);
@@ -179,14 +189,6 @@ public class App {
         app.get("/disciplinas/novo", disciplinaController::mostrarFormularioCadastro);
         app.post("/disciplinas", disciplinaController::adicionarDisciplina);
         app.get("/disciplinas/{id}/remover", disciplinaController::removerDisciplina);
-
-        //usuário
-        UsuarioController usuarioController = new UsuarioController();
-        app.get("/usuarios", usuarioController::listarUsuarios);
-        app.get("/usuarios/novo", usuarioController::mostrarFormularioCadastro);
-        app.post("/usuarios/cadastrar", usuarioController::cadastrarUsuario);
-        app.get("/usuarios/signup", usuarioController::mostrarFormulario_singup);
-        app.get("/usuarios/{id}/remover", usuarioController::removerUsuario);
     }
 
     private Properties carregarPropriedades() {

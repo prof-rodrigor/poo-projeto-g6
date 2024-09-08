@@ -11,7 +11,7 @@ public class UsuarioController{
     public void mostrarFormularioCadastro (Context ctx){
         ctx.render("/login/formulario_usuario.html");
     }
-    public void mostrarFormulario_singup (Context ctx){
+    public void mostrarFormulario_signup(Context ctx){
         ctx.render("/login/formulario_signup.html");
     }
 
