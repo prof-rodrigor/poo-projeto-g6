@@ -16,8 +16,6 @@ public class Usuario {
     public Usuario() {
     }
 
-
-
     public String getId() {
         return id;
     }
@@ -48,5 +46,15 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id='" + id + '\'' +
+                ", login='" + login + '\'' +
+                ", nome='" + nome + '\'' +
+                ", senha='" + senha + '\'' +
+                '}';
     }
 }

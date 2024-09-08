@@ -37,7 +37,7 @@ public class ParticipanteService extends AbstractService {
         return listarParticipantesPorCategoria(CategoriaParticipante.PROFESSOR);
     }
 
-    public List<Participante> listarParticipantes() {
+    public List<Participante> listarParticipantes(CategoriaParticipante categoria) {
         List<Participante> participantes = new LinkedList<>();
         for (Document doc : collection.find()) {
             participantes.add(documentToParticipante(doc));
