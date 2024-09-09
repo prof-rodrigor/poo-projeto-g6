@@ -4,8 +4,12 @@ import br.ufpb.dcx.rodrigor.projetos.Keys;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.model.Disciplina;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.model.PesoDisciplina;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.services.DisciplinaService;
+import br.ufpb.dcx.rodrigor.projetos.participante.model.CategoriaParticipante;
+import br.ufpb.dcx.rodrigor.projetos.participante.model.Participante;
+import br.ufpb.dcx.rodrigor.projetos.participante.services.ParticipanteService;
 import io.javalin.http.Context;
 
+import java.util.List;
 import java.util.Objects;
 
 public class DisciplinaController {
@@ -17,10 +21,18 @@ public class DisciplinaController {
         ctx.render("/disciplinas/lista_disciplinas.html");
     }
 
-    public void mostrarFormularioCadastro(Context ctx){
+    public void mostrarFormularioCadastro(Context ctx) {
+        DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
+        ParticipanteService participanteService = ctx.appData(Keys.PARTICIPANTE_SERVICE.key());
+
         ctx.attribute("pesos", PesoDisciplina.values());
+
+        List<Participante> professores = participanteService.listarParticipantesPorCategoria(CategoriaParticipante.PROFESSOR);
+        ctx.attribute("professores", professores);
+
         ctx.render("/disciplinas/formulario_disciplina.html");
     }
+
 
     public void adicionarDisciplina(Context ctx){
             DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
@@ -34,9 +46,14 @@ public class DisciplinaController {
 
                 ctx.attribute("pesos", PesoDisciplina.values());
 
+                ParticipanteService participanteService = ctx.appData(Keys.PARTICIPANTE_SERVICE.key());
+                List<Participante> professores = participanteService.listarParticipantesPorCategoria(CategoriaParticipante.PROFESSOR);
+                ctx.attribute("professores", professores);
+
                 ctx.render("/disciplinas/formulario_disciplina.html");
                 return;
             }
+
 
             Disciplina disciplina = new Disciplina();
             disciplina.setNome(nome);
