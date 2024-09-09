@@ -163,12 +163,12 @@ public class App {
         });
 
         //usuário
-        UsuarioController usuarioController = new UsuarioController();
-        app.get("/usuarios", usuarioController::listarUsuarios);
-        app.get("/usuarios/novo", usuarioController::mostrarFormularioCadastro);
-        app.post("/usuarios/cadastrar", usuarioController::cadastrarUsuario);
-        app.get("/usuarios/signup", usuarioController::mostrarFormulario_signup);
-        app.get("/usuarios/{id}/remover", usuarioController::removerUsuario);
+//        UsuarioController usuarioController = new UsuarioController();
+//        app.get("/usuarios", usuarioController::listarUsuarios);
+//        app.get("/usuarios/novo", usuarioController::mostrarFormularioCadastro);
+//        app.post("/usuarios/cadastrar", usuarioController::cadastrarUsuario);
+//        app.get("/usuarios/signup", usuarioController::mostrarFormulario_signup);
+//        app.get("/usuarios/{id}/remover", usuarioController::removerUsuario);
 
 
 
