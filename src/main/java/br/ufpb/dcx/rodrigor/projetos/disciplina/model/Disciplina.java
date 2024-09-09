@@ -7,6 +7,8 @@ public class Disciplina {
     private String nome;
     private String descricao;
     //adicionar um professor e alunos posteriormente
+
+    private String professor;
     private int periodo;
     private PesoDisciplina peso;
 
@@ -31,6 +33,10 @@ public class Disciplina {
 
     public void setDescricao(String descricao) {this.descricao = descricao;}
 
+    public String getProfessor(){return professor;}
+
+    public void setProfessor(String professor) {this.professor = professor;}
+
     public int getPeriodo() {
         return periodo;
     }
@@ -53,6 +59,7 @@ public class Disciplina {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
+                ", professor= " + professor +
                 ", periodo=" + periodo +
                 ", pesoDisciplina=" + peso +
                 '}';

@@ -26,6 +26,7 @@ public class DisciplinaController {
             DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
             String nome = ctx.formParam("nome");
             String descricao = ctx.formParam("descricao");
+            String professor =ctx.formParam("professor");
 
             // Verifica se o nome ultrapassa o limite de 50 caracteres
             if (nome != null && nome.length() > 50) {
@@ -40,6 +41,7 @@ public class DisciplinaController {
             Disciplina disciplina = new Disciplina();
             disciplina.setNome(nome);
             disciplina.setDescricao(descricao);
+            disciplina.setProfessor(professor);
             int periodo = Integer.parseInt(Objects.requireNonNull(ctx.formParam("periodo")));
             disciplina.setPeriodo(periodo);
             disciplina.setPeso(PesoDisciplina.valueOf(ctx.formParam("peso")));
