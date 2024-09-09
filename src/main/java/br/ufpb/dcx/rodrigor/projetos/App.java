@@ -129,9 +129,9 @@ public class App {
 
     private MongoDBRepository inicializarMongoDB() {
         String connectionString = propriedades.getProperty(PROP_MONGODB_CONNECTION_STRING);
-        logger.info("Lendo string de conexão ao MongoDB a partir do application.properties.example");
+        logger.info("Lendo string de conexão ao MongoDB a partir do application.properties");
         if (connectionString == null) {
-            logger.error("O string de conexão ao MongoDB não foi definido no arquivo /src/main/resources/application.properties.example");
+            logger.error("O string de conexão ao MongoDB não foi definido no arquivo /src/main/resources/application.properties");
             logger.error("Defina a propriedade '{}' no arquivo de propriedades", PROP_MONGODB_CONNECTION_STRING);
             System.exit(1);
         }
@@ -193,15 +193,15 @@ public class App {
 
     private Properties carregarPropriedades() {
         Properties prop = new Properties();
-        try (InputStream input = App.class.getClassLoader().getResourceAsStream("application.properties.example")) {
+        try (InputStream input = App.class.getClassLoader().getResourceAsStream("application.properties")) {
             if(input == null){
-                logger.error("Arquivo de propriedades /src/main/resources/application.properties.example não encontrado");
-                logger.error("Use o arquivo application.properties.example.examplo como base para criar o arquivo application.properties.example");
+                logger.error("Arquivo de propriedades /src/main/resources/application.properties não encontrado");
+                logger.error("Use o arquivo application.properties.examplo como base para criar o arquivo application.properties");
                 System.exit(1);
             }
             prop.load(input);
         } catch (IOException ex) {
-            logger.error("Erro ao carregar o arquivo de propriedades /src/main/resources/application.properties.example", ex);
+            logger.error("Erro ao carregar o arquivo de propriedades /src/main/resources/application.properties", ex);
             System.exit(1);
         }
         return prop;

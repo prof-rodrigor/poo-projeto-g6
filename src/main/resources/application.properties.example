@@ -2,5 +2,3 @@
 mongodb.connectionString=
 
 porta.servidor=8000
-
-#Não apague esse arquivo. Só ele aparece no github.
