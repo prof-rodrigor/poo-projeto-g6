@@ -27,7 +27,7 @@
             <label for="professor" class="form-label">Professor da Disciplina</label>
             <select class="form-select" id="professor" name="professor" required>
                 <th:block th:each="professor : ${professores}">
-                    <option th:text="${professor.nome}"></option>
+                    <option th:text="${professor.nome} + ' ' + ${professor.sobrenome}"></option>
                 </th:block>
             </select>
 
