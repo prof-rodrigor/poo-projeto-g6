@@ -26,9 +26,10 @@
         <div class="mb-3">
             <label for="professor" class="form-label">Professor da Disciplina</label>
             <select class="form-select" id="professor" name="professor" required>
-                <th:block th:each="professor : ${professores}">
-                    <option th:text="${professor.nome} + ' ' + ${professor.sobrenome}"></option>
-                </th:block>
+                <option value="">Selecione um professor</option>
+                <option th:each="professor : ${professores}"
+                        th:text="${professor.nome} + ' ' + ${professor.sobrenome}">
+                </option>
             </select>
 
         </div>
@@ -37,6 +38,7 @@
         <div class="mb-3">
             <label for="periodo" class="form-label">Período</label>
             <select class="form-select" id="periodo" name="periodo" required>
+                <option value="">Selecione um período</option>
                 <option th:each="num : ${#numbers.sequence(1, 9)}"
                         th:value="${num}"
                         th:text="${num}"></option>
@@ -47,6 +49,7 @@
         <div class="mb-3">
             <label for="peso" class="form-label">Peso</label>
             <select class="form-select" id="peso" name="peso" required>
+                <option value="">Selecione um peso</option>
                 <option th:each="peso : ${pesos}" th:value="${peso.name()}" th:text="${peso.toString()}"> </option>
             </select>
         </div>

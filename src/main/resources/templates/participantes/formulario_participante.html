@@ -27,6 +27,7 @@
         <div class="mb-3">
             <label for="categoria" class="form-label">Categoria</label>
             <select class="form-select" id="categoria" name="categoria" required>
+                <option value="">Selecione uma categoria</option>
                 <option th:each="categoria : ${categorias}" th:value="${categoria.name()}" th:text="${categoria.toString()}"></option>
             </select>
         </div>
