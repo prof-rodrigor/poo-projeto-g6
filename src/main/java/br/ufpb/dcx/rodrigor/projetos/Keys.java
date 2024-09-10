@@ -12,7 +12,7 @@ public enum Keys {
     USUARIO_SERVICE(new Key<UsuarioService>("usuario-service")),
     PROJETO_SERVICE(new Key<ProjetoService>("projeto-service")),
     PARTICIPANTE_SERVICE(new Key<ParticipanteService>("participante-service")),
-    DISCIPLINA_SERVICE(new Key<DisciplinaService>("disciplina-service")); //adicionado
+    DISCIPLINA_SERVICE(new Key<DisciplinaService>("disciplina-service"));
 
     private final Key<?> k;
 

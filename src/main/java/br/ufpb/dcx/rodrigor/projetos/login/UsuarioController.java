@@ -8,9 +8,6 @@ import java.util.List;
 
 public class UsuarioController{
 
-    public void mostrarFormularioCadastro (Context ctx){
-        ctx.render("/login/formulario_usuario.html");
-    }
     public void mostrarFormulario_signup(Context ctx){
         ctx.render("/login/formulario_signup.html");
     }
@@ -23,11 +20,10 @@ public class UsuarioController{
 
         boolean signup = (ctx.formParam("signup") != null);
         String formSignup = "/login/formulario_signup.html";
-        String formCadastro = "/login/formulario_usuario.html";
 
         if (usuarioService.buscarUsuarioPorLogin(email) != null){
             ctx.attribute("erro", "Já existe um usuário com o email cadastrado: " +email);
-            ctx.render(signup?formSignup:formCadastro);
+            ctx.render(formSignup);
             return;
         }
 
