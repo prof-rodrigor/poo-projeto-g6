@@ -8,7 +8,8 @@
 <section>
     <h2 class="mt-5">Disciplinas</h2>
     <a href="/disciplinas/novo" class="btn btn-primary mb-3">Nova Disciplina</a>
-    <table class="table table-striped">
+    <div class="table-responsive">
+    <table class="table table-striped w-100">
         <thead>
         <tr>
             <th>Nome</th>
@@ -35,6 +36,7 @@
         </th:block>
         </tbody>
     </table>
+    </div>
     <script>
         function removerDisciplina(button) {
             const id = button.getAttribute('data-id');
