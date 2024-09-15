@@ -37,10 +37,15 @@ public class DisciplinaController {
 
     public void adicionarDisciplina(Context ctx) {
         DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
+
+        if (!validarParametrosObrigatorios(ctx, "nome", "descricao", "professor", "periodo", "peso")){
+            ctx.render("/disciplinas/formulario_disciplina.html");
+            return;
+        }
+
         String nome = ctx.formParam("nome");
         String descricao = ctx.formParam("descricao");
         String professor = ctx.formParam("professor");
-
 
         // Verifica se o nome ultrapassa o limite de 50 caracteres
         if (nome != null && nome.length() > 50) {
@@ -55,7 +60,6 @@ public class DisciplinaController {
             ctx.render("/disciplinas/formulario_disciplina.html");
             return;
         }
-
 
         Disciplina disciplina = new Disciplina();
         disciplina.setNome(nome);
@@ -78,8 +82,6 @@ public class DisciplinaController {
         }
         return true;
     }
-
-
 
     public void editarDisciplina(Context ctx) {
         DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
