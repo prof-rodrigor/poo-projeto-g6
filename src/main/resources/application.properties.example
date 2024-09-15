@@ -1,5 +1,5 @@
 #sua connection string:
-mongodb.connectionString=mongodb+srv://lucianovicente:<db_password>@grupo6.jh1hq.mongodb.net/?retryWrites=true&w=majority&appName=Grupo6
+mongodb.connectionString=
 
 porta.servidor=8006
 

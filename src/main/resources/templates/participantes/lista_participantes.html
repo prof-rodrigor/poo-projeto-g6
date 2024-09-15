@@ -28,6 +28,9 @@
                 <td th:text="${participante.telefone}">Telefone</td>
                 <td th:text="${participante.categoria}">Categoria</td>
                 <td>
+                    <button type="button" class="btn btn-primary btn-sm me-2" th:data-id="${participante.id}" aria-label="Editar Participante">
+                        Editar
+                    </button>
                     <button class="btn btn-danger btn-sm" th:data-id="${participante.id}" onclick="removerParticipante(this)">
                         Remover
                     </button>
