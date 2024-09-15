@@ -69,6 +69,18 @@ public class DisciplinaController {
         ctx.redirect("/disciplinas");
     }
 
+    private boolean validarParametrosObrigatorios(Context ctx, String... parametros) {
+        for (String param : parametros) {
+            String valor = ctx.formParam(param);
+            if (valor == null || valor.trim().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
     public void editarDisciplina(Context ctx) {
         DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
         ctx.redirect("/disciplina/novo");
