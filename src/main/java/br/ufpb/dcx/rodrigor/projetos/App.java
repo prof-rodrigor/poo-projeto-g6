@@ -153,14 +153,13 @@ public class App {
         app.get("/login", loginController::mostrarPaginaLogin);
         app.post("/login", loginController::processarLogin);
         app.get("/logout", loginController::logout);
+        //Checando se o usuário está logado e redirecionando-o para a página de login caso não esteja */
+        aplicarAutenticacao(app, "/area-interna");
+        aplicarAutenticacao(app, "/projetos");
+        aplicarAutenticacao(app, "/participantes");
+        aplicarAutenticacao(app, "/disciplinas");
 
-        app.get("/area-interna", ctx -> {
-            if (ctx.sessionAttribute("usuario") == null) {
-                ctx.redirect("/login");
-            } else {
-                ctx.render("area_interna.html");
-            }
-        });
+        app.get("/area-interna", ctx -> ctx.render("area_interna.html"));
 
         //usuário
 //        UsuarioController usuarioController = new UsuarioController();
@@ -168,7 +167,6 @@ public class App {
 //        app.get("/usuarios/signup", usuarioController::mostrarFormulario_signup);
 //        app.post("/usuarios/signup", usuarioController::cadastrarUsuario);
 //        app.get("/usuarios/{id}/remover", usuarioController::removerUsuario);
-
 
 
         ProjetoController projetoController = new ProjetoController();
@@ -188,6 +186,14 @@ public class App {
         app.get("/disciplinas/novo", disciplinaController::mostrarFormularioCadastro);
         app.post("/disciplinas", disciplinaController::adicionarDisciplina);
         app.get("/disciplinas/{id}/remover", disciplinaController::removerDisciplina);
+    }
+
+    private void aplicarAutenticacao(Javalin app, String caminhoProtegido) {
+        app.before(caminhoProtegido, ctx -> {
+            if (ctx.sessionAttribute("usuario") == null) {
+                ctx.redirect("/login");
+            }
+        });
     }
 
     private Properties carregarPropriedades() {
