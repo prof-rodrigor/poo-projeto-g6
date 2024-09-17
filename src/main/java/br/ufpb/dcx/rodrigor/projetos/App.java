@@ -158,6 +158,7 @@ public class App {
         aplicarAutenticacao(app, "/projetos");
         aplicarAutenticacao(app, "/participantes");
         aplicarAutenticacao(app, "/disciplinas");
+        aplicarAutenticacao(app, "/disciplinas/json");
 
         app.get("/area-interna", ctx -> ctx.render("area_interna.html"));
 
