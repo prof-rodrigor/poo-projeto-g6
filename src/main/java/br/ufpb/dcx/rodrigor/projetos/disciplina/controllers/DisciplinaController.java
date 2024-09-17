@@ -22,6 +22,13 @@ public class DisciplinaController {
         ctx.render("/disciplinas/lista_disciplinas.html");
     }
 
+    public void disciplinasEmJson(Context ctx){
+        DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
+
+        List<Disciplina> disciplinas = disciplinaService.listarDisciplinas();
+        ctx.json(disciplinas);
+    }
+
     public void mostrarFormularioCadastro(Context ctx) {
         DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
         ParticipanteService participanteService = ctx.appData(Keys.PARTICIPANTE_SERVICE.key());

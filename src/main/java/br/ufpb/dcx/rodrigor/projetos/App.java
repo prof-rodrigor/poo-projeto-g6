@@ -179,6 +179,8 @@ public class App {
         app.post("/disciplinas", disciplinaController::adicionarDisciplina);
         app.get("/disciplinas/{id}/remover", disciplinaController::removerDisciplina);
 
+        app.get("/disciplinas/json", disciplinaController::disciplinasEmJson);
+
 
 
         //usuário
