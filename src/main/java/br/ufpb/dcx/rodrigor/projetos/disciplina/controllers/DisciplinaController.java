@@ -93,7 +93,7 @@ public class DisciplinaController {
     public void editarDisciplina(Context ctx) {
         DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
         ctx.redirect("/disciplina/novo");
-
+        //TODO
     }
 
     public void removerDisciplina(Context ctx) {

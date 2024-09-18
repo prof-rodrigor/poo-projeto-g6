@@ -58,7 +58,6 @@ public class App {
         config.appData(Keys.PARTICIPANTE_SERVICE.key(), participanteService);
         config.appData(Keys.USUARIO_SERVICE.key(), new UsuarioService(mongoDBRepository));
         config.appData(Keys.DISCIPLINA_SERVICE.key(), disciplinaService);
-        //sem a utilização dos participantes no momento
     }
     private void configurarPaginasDeErro(Javalin app) {
         app.error(404, ctx -> ctx.render("erro_404.html"));
@@ -180,7 +179,6 @@ public class App {
         app.get("/disciplinas/{id}/remover", disciplinaController::removerDisciplina);
 
         app.get("/disciplinas/json", disciplinaController::disciplinasEmJson);
-
 
 
         //usuário

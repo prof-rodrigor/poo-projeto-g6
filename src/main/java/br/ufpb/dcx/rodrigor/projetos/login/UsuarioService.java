@@ -16,7 +16,7 @@ public class UsuarioService extends AbstractService {
 
     public UsuarioService (MongoDBRepository mongoDBRepository) {
         super(mongoDBRepository);
-        MongoDatabase database = mongoDBRepository.getDatabase("projetos");
+        MongoDatabase database = mongoDBRepository.getDatabase("usuarios");
         this.usuariosCollection = database.getCollection("usuarios");
     }
     public void cadastrarUsuario (Usuario usuario) throws IllegalAccessException {
