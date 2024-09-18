@@ -155,10 +155,9 @@ public class App {
         app.get("/logout", loginController::logout);
         //Checando se o usuário está logado e redirecionando-o para a página de login caso não esteja
         aplicarAutenticacao(app, "/area-interna");
-        aplicarAutenticacao(app, "/projetos");
-        aplicarAutenticacao(app, "/participantes");
-        aplicarAutenticacao(app, "/disciplinas");
-        aplicarAutenticacao(app, "/disciplinas/json");
+        aplicarAutenticacao(app, "/projetos/*");
+        aplicarAutenticacao(app, "/participantes/*");
+        aplicarAutenticacao(app, "/disciplinas/*");
 
         app.get("/area-interna", ctx -> ctx.render("area_interna.html"));
 
