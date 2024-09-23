@@ -3,6 +3,8 @@ package br.ufpb.dcx.rodrigor.projetos;
 import br.ufpb.dcx.rodrigor.projetos.db.MongoDBRepository;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.controllers.DisciplinaController;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.services.DisciplinaService;
+import br.ufpb.dcx.rodrigor.projetos.form.controller.FormController;
+import br.ufpb.dcx.rodrigor.projetos.form.services.FormService;
 import br.ufpb.dcx.rodrigor.projetos.login.LoginController;
 import br.ufpb.dcx.rodrigor.projetos.login.UsuarioController;
 import br.ufpb.dcx.rodrigor.projetos.login.UsuarioService;
@@ -53,7 +55,7 @@ public class App {
     private void registrarServicos(JavalinConfig config, MongoDBRepository mongoDBRepository) {
         ParticipanteService participanteService = new ParticipanteService(mongoDBRepository);
         DisciplinaService disciplinaService = new DisciplinaService(mongoDBRepository);
-
+        config.appData(Keys.FORM_SERVICE.key(), new FormService());
         config.appData(Keys.PROJETO_SERVICE.key(), new ProjetoService(mongoDBRepository, participanteService));
         config.appData(Keys.PARTICIPANTE_SERVICE.key(), participanteService);
         config.appData(Keys.USUARIO_SERVICE.key(), new UsuarioService(mongoDBRepository));
@@ -160,6 +162,10 @@ public class App {
 
         app.get("/area-interna", ctx -> ctx.render("area_interna.html"));
 
+        FormController formController = new FormController();
+        app.get("/form/{formId}", formController::abrirFormulario);
+        app.post("/form/{formId}", formController::validarFormulario);
+
         ProjetoController projetoController = new ProjetoController();
         app.get("/projetos", projetoController::listarProjetos);
         app.get("/projetos/novo", projetoController::mostrarFormulario);
@@ -179,6 +185,7 @@ public class App {
         app.get("/disciplinas/{id}/remover", disciplinaController::removerDisciplina);
 
         app.get("/disciplinas/json", disciplinaController::disciplinasEmJson);
+
 
 
         //usuário

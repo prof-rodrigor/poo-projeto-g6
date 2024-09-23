@@ -10,6 +10,7 @@ import io.javalin.config.Key;
 public enum Keys {
     MONGO_DB(new Key<MongoDBRepository>("mongo-db")),
     USUARIO_SERVICE(new Key<UsuarioService>("usuario-service")),
+    FORM_SERVICE(new Key<ParticipanteService>("form-service")),
     PROJETO_SERVICE(new Key<ProjetoService>("projeto-service")),
     PARTICIPANTE_SERVICE(new Key<ParticipanteService>("participante-service")),
     DISCIPLINA_SERVICE(new Key<DisciplinaService>("disciplina-service"));
