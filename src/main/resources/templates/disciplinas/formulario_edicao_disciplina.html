@@ -14,25 +14,24 @@
     <form action="/disciplinas/${disciplina.id}/editar" method="post">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome" value="${disciplina.nome}" maxlength="50" required>
+            <input type="text" class="form-control" id="nome" name="nome" th:value="${disciplina.nome}" maxlength="50" required>
         </div>
 
         <div class="mb-3">
             <label for="descricao" class="form-label">Descrição</label>
-            <input type="text" class="form-control" id="descricao" name="descricao" value="${disciplina.descricao}" maxlength="300" required>
+            <input type="text" class="form-control" id="descricao" name="descricao" th:value="${disciplina.descricao}" maxlength="300" required>
         </div>
 
         <div class="mb-3">
             <label for="professor" class="form-label">Professor da Disciplina</label>
             <select class="form-select" id="professor" name="professor" required>
-                <option value="">Selecione um período</option>
+                <option value="">Selecione um professor</option>
                 <option th:each="professor : ${professores}"
                         th:value="${professor.nome}"
                         th:text="${professor.nome}"
                         th:selected="${professor.nome == disciplina.professor}" >
                 </option>
             </select>
-
         </div>
 
         <!-- Campo para escolher o período -->
@@ -42,7 +41,9 @@
                 <option value="">Selecione um período</option>
                 <option th:each="num : ${#numbers.sequence(1, 9)}"
                         th:value="${num}"
-                        th:text="${num}"></option>
+                        th:text="${num}"
+                        th:selected="${num == disciplina.periodo}">
+                </option>
             </select>
         </div>
 
@@ -54,7 +55,7 @@
                 <option th:each="peso : ${pesos}"
                         th:value="${peso.name()}"
                         th:text="${peso.toString()}"
-                        th:selected="${peso == disciplina.peso">
+                        th:selected="${peso == disciplina.peso}">
                 </option>
             </select>
         </div>

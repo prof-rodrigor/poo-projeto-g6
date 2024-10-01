@@ -54,7 +54,7 @@ public class DisciplinaController {
             ctx.attribute("pesos", PesoDisciplina.values());
 
             ParticipanteService participanteService = ctx.appData(Keys.PARTICIPANTE_SERVICE.key());
-            List<Participante> professores = participanteService.listarProfessores();
+            List<Participante> professores = participanteService.listarParticipantesPorCategoria(CategoriaParticipante.PROFESSOR);
             ctx.attribute("professores", professores);
 
             ctx.render("/disciplinas/formulario_edicao_disciplina.html");
