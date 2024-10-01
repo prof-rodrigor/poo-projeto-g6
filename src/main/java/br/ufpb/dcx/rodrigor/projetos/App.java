@@ -179,8 +179,8 @@ public class App {
         app.get("/disciplinas", disciplinaController::listarDisciplinas);
         app.get("/disciplinas/novo", disciplinaController::mostrarFormularioCadastro);
         app.post("/disciplinas", disciplinaController::adicionarDisciplina);
-        app.get("/disciplinas/{id}/remover", disciplinaController::removerDisciplina)
-        ;
+        app.get("/disciplinas/{id}/remover", disciplinaController::removerDisciplina);
+
         app.get("/disciplinas/{id}/editar", disciplinaController::mostrarFormularioEdicao);
         app.post("/disciplinas/{id}/editar", disciplinaController::editarDisciplina);
 

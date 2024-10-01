@@ -11,8 +11,8 @@
     <!-- Exibe a mensagem de erro-->
     <div th:if="${mensagemErro}" class="alert alert-danger" th:text="${mensagemErro}"></div>
 
-    <form action="/disciplinas/${disciplina.id}/editar" method="post">
-        <div class="mb-3">
+    <form th:action="@{/disciplinas/{id}/editar(id=${disciplina.id})}" method="post">
+    <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
             <input type="text" class="form-control" id="nome" name="nome" th:value="${disciplina.nome}" maxlength="50" required>
         </div>
@@ -27,10 +27,8 @@
             <select class="form-select" id="professor" name="professor" required>
                 <option value="">Selecione um professor</option>
                 <option th:each="professor : ${professores}"
-                        th:value="${professor.nome}"
-                        th:text="${professor.nome}"
-                        th:selected="${disciplina.professor != null &&
-                      (professor.nome + ' ' + professor.sobrenome) == disciplina.professor}" >
+                        th:text="${professor.nome} + ' ' + ${professor.sobrenome}"
+                        th:selected="${disciplina.professor != null && (professor.nome + ' ' + professor.sobrenome) == disciplina.professor}" >
                 </option>
             </select>
         </div>
@@ -61,7 +59,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="submit" class="btn btn-primary">Salvar as alterações</button>
         <a href="/disciplinas" class="btn btn-secondary">Cancelar</a>
     </form>
 </section>

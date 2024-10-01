@@ -114,7 +114,7 @@ public class DisciplinaController {
     public void editarDisciplina(Context ctx) {
         DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
 
-        String id = ctx.formParam("id");
+        String id = ctx.pathParam("id");
         Optional<Disciplina> disciplinaOptional = disciplinaService.buscarDisciplinaPorId(id);
 
         if (disciplinaOptional.isPresent()) {
