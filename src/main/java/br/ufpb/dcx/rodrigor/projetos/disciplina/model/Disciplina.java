@@ -7,7 +7,6 @@ public class Disciplina {
     private String nome;
     private String descricao;
     //adicionar um professor e alunos posteriormente
-
     private String professor;
     private int periodo;
     private PesoDisciplina peso;

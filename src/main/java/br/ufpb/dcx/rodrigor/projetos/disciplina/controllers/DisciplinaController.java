@@ -119,6 +119,7 @@ public class DisciplinaController {
 
         if (disciplinaOptional.isPresent()) {
             Disciplina disciplina = disciplinaOptional.get();
+
             disciplina.setNome(ctx.formParam("nome"));
             disciplina.setDescricao(ctx.formParam("descricao"));
             disciplina.setProfessor(ctx.formParam("professor"));

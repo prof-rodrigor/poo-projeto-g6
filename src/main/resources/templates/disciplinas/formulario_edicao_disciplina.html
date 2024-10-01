@@ -29,7 +29,8 @@
                 <option th:each="professor : ${professores}"
                         th:value="${professor.nome}"
                         th:text="${professor.nome}"
-                        th:selected="${professor.nome == disciplina.professor}" >
+                        th:selected="${disciplina.professor != null &&
+                      (professor.nome + ' ' + professor.sobrenome) == disciplina.professor}" >
                 </option>
             </select>
         </div>
