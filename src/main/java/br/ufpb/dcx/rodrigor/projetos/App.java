@@ -1,21 +1,23 @@
 package br.ufpb.dcx.rodrigor.projetos;
 
-import br.ufpb.dcx.rodrigor.projetos.db.MongoDBConnector;
+import br.ufpb.dcx.rodrigor.projetos.db.MongoDBRepository;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.controllers.DisciplinaController;
 import br.ufpb.dcx.rodrigor.projetos.disciplina.services.DisciplinaService;
+import br.ufpb.dcx.rodrigor.projetos.form.controller.FormController;
+import br.ufpb.dcx.rodrigor.projetos.form.services.FormService;
 import br.ufpb.dcx.rodrigor.projetos.login.LoginController;
+import br.ufpb.dcx.rodrigor.projetos.login.UsuarioController;
+import br.ufpb.dcx.rodrigor.projetos.login.UsuarioService;
 import br.ufpb.dcx.rodrigor.projetos.participante.controllers.ParticipanteController;
 import br.ufpb.dcx.rodrigor.projetos.participante.services.ParticipanteService;
 import br.ufpb.dcx.rodrigor.projetos.projeto.controllers.ProjetoController;
 import br.ufpb.dcx.rodrigor.projetos.projeto.services.ProjetoService;
-import com.mongodb.client.MongoCollection;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bson.Document;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
@@ -27,11 +29,13 @@ import java.util.function.Consumer;
 public class App {
     private static final Logger logger = LogManager.getLogger();
 
-    private static final int PORTA_PADRAO = 8000;
+    private static final int PORTA_PADRAO = 8006;
+
     private static final String PROP_PORTA_SERVIDOR = "porta.servidor";
     private static final String PROP_MONGODB_CONNECTION_STRING = "mongodb.connectionString";
+
     private final Properties propriedades;
-    private MongoDBConnector mongoDBConnector = null;
+    private MongoDBRepository mongoDBRepository = null;
 
     public App() {
         this.propriedades = carregarPropriedades();
@@ -48,14 +52,14 @@ public class App {
             ctx.status(500);
         });
     }
-    private void registrarServicos(JavalinConfig config, MongoDBConnector mongoDBConnector) {
-        ParticipanteService participanteService = new ParticipanteService(mongoDBConnector);
-        DisciplinaService disciplinaService = new DisciplinaService(mongoDBConnector);
-
-        config.appData(Keys.PROJETO_SERVICE.key(), new ProjetoService(mongoDBConnector, participanteService));
+    private void registrarServicos(JavalinConfig config, MongoDBRepository mongoDBRepository) {
+        ParticipanteService participanteService = new ParticipanteService(mongoDBRepository);
+        DisciplinaService disciplinaService = new DisciplinaService(mongoDBRepository);
+        config.appData(Keys.FORM_SERVICE.key(), new FormService());
+        config.appData(Keys.PROJETO_SERVICE.key(), new ProjetoService(mongoDBRepository, participanteService));
         config.appData(Keys.PARTICIPANTE_SERVICE.key(), participanteService);
+        config.appData(Keys.USUARIO_SERVICE.key(), new UsuarioService(mongoDBRepository));
         config.appData(Keys.DISCIPLINA_SERVICE.key(), disciplinaService);
-        //sem a utilização dos participantes no momento
     }
     private void configurarPaginasDeErro(Javalin app) {
         app.error(404, ctx -> ctx.render("erro_404.html"));
@@ -77,15 +81,15 @@ public class App {
 
         config.events(event -> {
             event.serverStarting(() -> {
-                mongoDBConnector = inicializarMongoDB();
-                config.appData(Keys.MONGO_DB.key(), mongoDBConnector);
-                registrarServicos(config, mongoDBConnector);
+                mongoDBRepository = inicializarMongoDB();
+                config.appData(Keys.MONGO_DB.key(), mongoDBRepository);
+                registrarServicos(config, mongoDBRepository);
             });
             event.serverStopping(() -> {
-                if (mongoDBConnector == null) {
+                if (mongoDBRepository == null) {
                     logger.error("MongoDBConnector não deveria ser nulo ao parar o servidor");
                 } else {
-                    mongoDBConnector.close();
+                    mongoDBRepository.close();
                     logger.info("Conexão com o MongoDB encerrada com sucesso");
                 }
             });
@@ -124,7 +128,7 @@ public class App {
         return templateEngine;
     }
 
-    private MongoDBConnector inicializarMongoDB() {
+    private MongoDBRepository inicializarMongoDB() {
         String connectionString = propriedades.getProperty(PROP_MONGODB_CONNECTION_STRING);
         logger.info("Lendo string de conexão ao MongoDB a partir do application.properties");
         if (connectionString == null) {
@@ -134,7 +138,7 @@ public class App {
         }
 
         logger.info("Conectando ao MongoDB");
-        MongoDBConnector db = new MongoDBConnector(connectionString);
+        MongoDBRepository db = new MongoDBRepository(connectionString);
         if (db.conectado("config")) {
             logger.info("Conexão com o MongoDB estabelecida com sucesso");
         } else {
@@ -150,14 +154,14 @@ public class App {
         app.get("/login", loginController::mostrarPaginaLogin);
         app.post("/login", loginController::processarLogin);
         app.get("/logout", loginController::logout);
+        //Checando se o usuário está logado e redirecionando-o para a página de login caso não esteja
+        aplicarAutenticacao(app, "/area-interna");
 
-        app.get("/area-interna", ctx -> {
-            if (ctx.sessionAttribute("usuario") == null) {
-                ctx.redirect("/login");
-            } else {
-                ctx.render("area_interna.html");
-            }
-        });
+        app.get("/area-interna", ctx -> ctx.render("area_interna.html"));
+
+        FormController formController = new FormController();
+        app.get("/form/{formId}", formController::abrirFormulario);
+        app.post("/form/{formId}", formController::validarFormulario);
 
         ProjetoController projetoController = new ProjetoController();
         app.get("/projetos", projetoController::listarProjetos);
@@ -176,6 +180,28 @@ public class App {
         app.get("/disciplinas/novo", disciplinaController::mostrarFormularioCadastro);
         app.post("/disciplinas", disciplinaController::adicionarDisciplina);
         app.get("/disciplinas/{id}/remover", disciplinaController::removerDisciplina);
+
+        app.get("/disciplinas/{id}/editar", disciplinaController::mostrarFormularioEdicao);
+        app.post("/disciplinas/{id}/editar", disciplinaController::editarDisciplina);
+
+        app.get("/disciplinas/json", disciplinaController::disciplinasEmJson);
+
+
+
+        //usuário
+//        UsuarioController usuarioController = new UsuarioController();
+//        app.get("/usuarios", usuarioController::listarUsuarios);
+//        app.get("/usuarios/signup", usuarioController::mostrarFormulario_signup);
+//        app.post("/usuarios/signup", usuarioController::cadastrarUsuario);
+//        app.get("/usuarios/{id}/remover", usuarioController::removerUsuario);
+    }
+
+    private void aplicarAutenticacao(Javalin app, String caminhoProtegido) {
+        app.before(caminhoProtegido, ctx -> {
+            if (ctx.sessionAttribute("usuario") == null) {
+                ctx.redirect("/login");
+            }
+        });
     }
 
     private Properties carregarPropriedades() {

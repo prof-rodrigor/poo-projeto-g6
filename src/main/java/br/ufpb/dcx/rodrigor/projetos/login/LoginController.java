@@ -8,15 +8,14 @@ public class LoginController {
     private static final Logger logger = LogManager.getLogger(LoginController.class);
 
     // Usuário de exemplo para autenticação
-    private final Usuario usuarioExemplo = new Usuario("admin", "Administrador", "admin");
+    private final Usuario usuarioExemplo = new Usuario("1234", "admin", "admin", "admin");
 
     public void mostrarPaginaLogin(Context ctx) {
         String teste = ctx.queryParam("teste");
         if(teste != null){
             throw new RuntimeException("Erro de teste a partir do /login?teste=1");
         }
-
-        ctx.render("login.html");
+        ctx.render("/login/login.html");
     }
 
     public void processarLogin(Context ctx) {
@@ -29,7 +28,7 @@ public class LoginController {
             ctx.redirect("/area-interna");
         } else {
             logger.warn("Tentativa de login falhou para o usuário: {}", login);
-            ctx.redirect("/login");
+            ctx.redirect("/login/login.html");
         }
     }
 
