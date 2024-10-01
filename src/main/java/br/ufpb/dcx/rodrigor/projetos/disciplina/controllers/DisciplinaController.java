@@ -9,8 +9,10 @@ import br.ufpb.dcx.rodrigor.projetos.participante.model.Participante;
 import br.ufpb.dcx.rodrigor.projetos.participante.services.ParticipanteService;
 import io.javalin.http.Context;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class DisciplinaController {
     public DisciplinaController() {
@@ -39,6 +41,26 @@ public class DisciplinaController {
         ctx.attribute("professores", professores);
 
         ctx.render("/disciplinas/formulario_disciplina.html");
+    }
+
+    public void mostrarFormularioEdicao(Context ctx) {
+        DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
+
+        String id = ctx.pathParam("id");
+        Optional<Disciplina> disciplinaOptional = disciplinaService.buscarDisciplinaPorId(id);
+
+        if (disciplinaOptional.isPresent()) {
+            ctx.attribute("disciplina", disciplinaOptional.get());
+            ctx.attribute("pesos", PesoDisciplina.values());
+
+            ParticipanteService participanteService = ctx.appData(Keys.PARTICIPANTE_SERVICE.key());
+            List<Participante> professores = participanteService.listarProfessores();
+            ctx.attribute("professores", professores);
+
+            ctx.render("/disciplinas/formulario_edicao_disciplina.html");
+        } else {
+            ctx.status(404).result("Disciplina não encontrada");
+        }
     }
 
 
@@ -72,8 +94,7 @@ public class DisciplinaController {
         disciplina.setNome(nome);
         disciplina.setDescricao(descricao);
         disciplina.setProfessor(professor);
-        int periodo = Integer.parseInt(Objects.requireNonNull(ctx.formParam("periodo")));
-        disciplina.setPeriodo(periodo);
+        disciplina.setPeriodo(Integer.parseInt(Objects.requireNonNull(ctx.formParam("periodo"))));
         disciplina.setPeso(PesoDisciplina.valueOf(ctx.formParam("peso")));
 
         disciplinaService.adicionarDisciplina(disciplina);
@@ -92,8 +113,23 @@ public class DisciplinaController {
 
     public void editarDisciplina(Context ctx) {
         DisciplinaService disciplinaService = ctx.appData(Keys.DISCIPLINA_SERVICE.key());
-        ctx.redirect("/disciplina/novo");
-        //TODO
+
+        String id = ctx.formParam("id");
+        Optional<Disciplina> disciplinaOptional = disciplinaService.buscarDisciplinaPorId(id);
+
+        if (disciplinaOptional.isPresent()) {
+            Disciplina disciplina = disciplinaOptional.get();
+            disciplina.setNome(ctx.formParam("nome"));
+            disciplina.setDescricao(ctx.formParam("descricao"));
+            disciplina.setProfessor(ctx.formParam("professor"));
+            disciplina.setPeriodo(Integer.parseInt(Objects.requireNonNull(ctx.formParam("periodo"))));
+            disciplina.setPeso(PesoDisciplina.valueOf(ctx.formParam("peso")));
+
+            disciplinaService.atualizarDisciplina(disciplina);
+            ctx.redirect("/disciplinas");
+        } else {
+            ctx.status(404).result("Disciplina não encontrada");
+        }
     }
 
     public void removerDisciplina(Context ctx) {
