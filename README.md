@@ -1,6 +1,6 @@
 Link para o vídeo de explicação feito por Luciano: https://youtu.be/Dumv6BLFIHM?feature=shared
 
-Integrantes: Ataide Felix da Silva, Jean Matheus Nunes, Luciano Vicente da Silva Junior e
+Integrantes: Jean Matheus Nunes, Lucas Vilar do Nascimento Nunes, Luciano Vicente da Silva Junior e
 Wagner Ryan Verissimo da Silva.
 ________________________________________________________________________________________________
 ________________________________________________________________________________________________
