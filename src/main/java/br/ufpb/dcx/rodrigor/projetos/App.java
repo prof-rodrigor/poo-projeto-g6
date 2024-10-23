@@ -152,7 +152,7 @@ public class App {
         LoginController loginController = new LoginController();
         app.get("/", ctx -> ctx.redirect("/login"));
         app.get("/login", loginController::mostrarPaginaLogin);
-        app.post("/login", loginController::processarLogin);
+        app.post("/login", LoginController::processarLogin);
         app.get("/logout", loginController::logout);
         //Checando se o usuário está logado e redirecionando-o para a página de login caso não esteja
         aplicarAutenticacao(app, "/area-interna");
