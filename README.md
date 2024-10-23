@@ -1,4 +1,4 @@
-**Link para o vídeo de explicação feito por Luciano: https://youtu.be/Dumv6BLFIHM?feature=shared
+**Link para o vídeo de explicação feito por Luciano: https://youtu.be/Dumv6BLFIHM?feature=shared ** \
 
 Integrantes: Ataide Felix da Silva, Jean Matheus Nunes, Luciano Vicente da Silva Junior e
 Wagner Ryan Verissimo da Silva.
