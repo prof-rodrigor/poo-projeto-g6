@@ -1,6 +1,8 @@
 package br.ufpb.dcx.rodrigor.projetos.login;
 
 import java.util.Locale;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
 
 public class Usuario {
     private String id;
@@ -14,6 +16,7 @@ public class Usuario {
         this.nome = nome;
         this.senha = senha;
     }
+
 
     public Usuario() {
     }
