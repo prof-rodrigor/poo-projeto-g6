@@ -27,7 +27,7 @@ import java.util.Properties;
 import java.util.function.Consumer;
 
 public class App {
-    private static final Logger logger = LogManager.getLogger();
+    public static final Logger logger = LogManager.getLogger();
 
     private static final int PORTA_PADRAO = 8006;
 
