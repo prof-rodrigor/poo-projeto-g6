@@ -31,7 +31,7 @@ public class LoginController {
         if (usuario != null) {
             logger.info("Usuário autenticado com sucesso");
             ctx.sessionAttribute("usuario", usuario);
-            ctx.redirect("usuarios");
+            ctx.redirect("area-interna");
         } else {
             ctx.redirect("/login");
         }
