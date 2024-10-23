@@ -65,3 +65,5 @@ possível cadastrar projetos e participantes.
     ```
 2. Edite o arquivo `application.properties` e insira a string de conexão do 
    seu banco de dados MongoDB: `mongodb.connectionString=<sua_string_de_conexão>`
+
+   .
